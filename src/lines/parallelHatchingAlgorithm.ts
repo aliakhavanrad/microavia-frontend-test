@@ -23,12 +23,13 @@ export function createParallelHatching(coordinates: [number, number, number?][][
             
             const points = getHatchingLinePoints(startPoint, direction, step * i++, polygonCoordinatesCartesian);
 
+
             if (points.length < 2) {
                 isHatchingLineInsidePolygon = false;
             } else {
-                // This is not always correct (in Concave polygons)
-                for (let j = 0; j < points.length; j += 2) {
-                    resultVec3.push(points.slice(j, j + 2));
+                const sortedPoints = points.sort((a, b) => a.x - b.x);
+                for (let j = 0; j < sortedPoints.length; j += 2) {
+                    resultVec3.push(sortedPoints.slice(j, j + 2));
                 }
             }
         }
